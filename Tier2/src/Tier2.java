@@ -23,11 +23,26 @@ public class Tier2 extends UnicastRemoteObject implements IClient, IClerk {
   @Override public void insertMoney(int customerID, double amount)
       throws SQLException, RemoteException
   {
-    tier3.setBalance(customerID,amount);
+    double balance = tier3.getBalance(customerID) + amount;
+    tier3.setBalance(customerID,balance);
   }
 
   @Override public boolean withdrawMoney(int customerID, double amount)
+      throws SQLException, RemoteException
   {
+    double balance = tier3.getBalance(customerID);
+
+    if(balance > amount){
+      balance -= amount;
+      tier3.setBalance(customerID,balance);
+      return true;
+    }
     return false;
+  }
+
+  @Override public double checkBalance(int customerID)
+      throws SQLException, RemoteException
+  {
+    return tier3.getBalance(customerID);
   }
 }
