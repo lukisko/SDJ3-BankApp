@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
 
-  public Connection getConnection() throws SQLException {
+  public static Connection getConnection() throws SQLException {
     DriverManager.registerDriver(new org.postgresql.Driver());
     return DriverManager.getConnection( DatabaseCredentials.URL, DatabaseCredentials.NAME, DatabaseCredentials.PASSWORD);
   }
