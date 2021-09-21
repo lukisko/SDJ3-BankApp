@@ -12,7 +12,7 @@ public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
     public DatabaseHandler() throws RemoteException{
         try {
             LocateRegistry.createRegistry(1099);
-            Naming.rebind("rmi://localhost/T3", this);
+            Naming.rebind("T3", this);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
