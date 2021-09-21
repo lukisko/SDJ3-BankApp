@@ -1,13 +1,17 @@
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class DatabaseHandler implements ITier3 {
+public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
 
-    public DatabaseHandler() {
+    public DatabaseHandler() throws RemoteException{
         try {
+            LocateRegistry.createRegistry(1099);
             Naming.rebind("rmi://localhost/T3", this);
         } catch (Exception ex) {
             ex.printStackTrace();
