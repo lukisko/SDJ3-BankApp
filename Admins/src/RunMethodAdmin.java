@@ -7,5 +7,6 @@ public class RunMethodAdmin {
   public static void main(String[] args)
       throws RemoteException, NotBoundException, MalformedURLException {
     IAdmin tier2 = (IAdmin) Naming.lookup( "rmi://localhost/T2" );
+
   }
 }
