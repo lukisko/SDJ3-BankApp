@@ -14,4 +14,5 @@ public interface ITier3 extends Remote
           RemoteException;
   int getCustomerID(String name) throws SQLException,
           RemoteException;
+
 }
