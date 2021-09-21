@@ -6,13 +6,14 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
 
     public DatabaseHandler() throws RemoteException{
         try {
             LocateRegistry.createRegistry(1099);
-            Naming.rebind("rmi://localhost/T3", this);
+            Naming.rebind("T3", this);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -43,7 +44,7 @@ public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
     @Override
     public void createAccount(String name) throws SQLException, RemoteException {
         try (Connection connection = DatabaseConnection.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("insert into Account(id,name,balance) values (DEFAULT,name = ?,amount=?)");
+            PreparedStatement statement = connection.prepareStatement("insert into Account(name,amount) values (?,?)");
             statement.setString(1, name);
             statement.setDouble(2, 0);
             statement.executeUpdate();
