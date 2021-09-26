@@ -8,7 +8,9 @@ public class RunMethodCustomer {
 
 
   public static void main(String[] args)
-      throws RemoteException, NotBoundException, MalformedURLException {
-    IClient tier2 = (IClient) Naming.lookup( "rmi://localhost/T2" );
+  {
+    Client client=new Client();
+    client.takeMoney(1,3);
+    client.disconnect();
   }
 }

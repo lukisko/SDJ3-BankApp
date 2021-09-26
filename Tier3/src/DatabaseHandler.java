@@ -50,7 +50,6 @@ public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
             statement.executeUpdate();
         }
     }
-
     @Override
     public void deleteAccount(int customerID) throws SQLException, RemoteException {
         try (Connection connection = DatabaseConnection.getConnection()) {

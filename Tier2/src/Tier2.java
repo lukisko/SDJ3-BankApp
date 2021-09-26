@@ -1,28 +1,36 @@
+import javax.management.remote.rmi.RMIConnector;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.RMIClassLoader;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
-public class Tier2 extends UnicastRemoteObject implements /*IClient, IClerk,*/ IAdmin {
+public class Tier2 extends UnicastRemoteObject implements IClient, IClerk, IAdmin {
 
     private ITier3 tier3;
+    private ArrayList<ClientInterface> activeClients;
 
     protected Tier2() throws RemoteException {
-
+        this.activeClients = new ArrayList<>();
         try {
-            LocateRegistry.createRegistry(1099);
-            //UnicastRemoteObject.exportObject(this,0);
-            Naming.bind("Admin", this);
-
+            Registry registry = LocateRegistry.createRegistry(1099);
+            Naming.bind("T2", this);
             tier3 = (ITier3) Naming.lookup("rmi://192.168.43.111:1099/T3");
+
+
         } catch (Exception ex) {
             ex.printStackTrace();
             System.exit(1);
         }
+
     }
 
-    /*@Override
+    @Override
     public void insertMoney(int customerID, double amount)
             throws SQLException, RemoteException {
         tier3.setBalance(customerID, amount);
@@ -35,15 +43,21 @@ public class Tier2 extends UnicastRemoteObject implements /*IClient, IClerk,*/ I
 
             return false;
         } else {
+
             tier3.setBalance(customerID, amount);
+            double customerBalance = checkBalance(customerID);
+            for (ClientInterface x : activeClients) {
+                x.response(customerBalance);
+            }
             return true;
         }
     }
 
     @Override
     public double checkBalance(int customerID) throws SQLException, RemoteException {
+
         return tier3.getBalance(customerID);
-    }*/
+    }
 
     @Override
     public int getCustomerID(String name) throws SQLException, RemoteException {
@@ -58,5 +72,14 @@ public class Tier2 extends UnicastRemoteObject implements /*IClient, IClerk,*/ I
     @Override
     public void createAccount(String name) throws SQLException, RemoteException {
         tier3.createAccount(name);
+    }
+
+  @Override   public void addToActiveClientList(ClientInterface IClient) {
+        activeClients.add(IClient);
+
+    }
+    @Override   public void removeFromActiveClientList(ClientInterface IClient) {
+        activeClients.remove(IClient);
+
     }
 }
