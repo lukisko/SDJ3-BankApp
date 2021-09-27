@@ -5,6 +5,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -13,7 +14,7 @@ public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
     public DatabaseHandler() throws RemoteException{
         try {
             LocateRegistry.createRegistry(1099);
-            Naming.rebind("T3", this);
+            Naming.bind("T3", this);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -21,11 +22,14 @@ public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
 
     @Override
     public double getBalance(int customerID) throws SQLException, RemoteException {
-        double balance = 0;
+        float balance = 0;
         try (Connection connection = DatabaseConnection.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("select balance from Account where customerID = ?");
-            balance = statement.getResultSet().getDouble(2);
-            statement.executeUpdate();
+            PreparedStatement statement = connection.prepareStatement("select * from Account where customerID = ?");
+            statement.setInt(1,customerID);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            balance = resultSet.getFloat(3);
+
         }
         return balance;
     }
