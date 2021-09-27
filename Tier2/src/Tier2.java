@@ -10,17 +10,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class Tier2 extends UnicastRemoteObject implements IClient, IClerk, IAdmin {
+public class Tier2 extends UnicastRemoteObject implements IAdmin{
 
     private ITier3 tier3;
     private ArrayList<ClientInterface> activeClients;
 
-    protected Tier2() throws RemoteException {
+    public Tier2() throws RemoteException {
         this.activeClients = new ArrayList<>();
         try {
             Registry registry = LocateRegistry.createRegistry(1099);
             Naming.bind("T2", this);
-            tier3 = (ITier3) Naming.lookup("rmi://192.168.43.111:1099/T3");
+            tier3 = (ITier3) Naming.lookup("rmi://192.168.43.191:1099/T3");
 
 
         } catch (Exception ex) {
@@ -30,22 +30,24 @@ public class Tier2 extends UnicastRemoteObject implements IClient, IClerk, IAdmi
 
     }
 
-    @Override
+  //  @Override
     public void insertMoney(int customerID, double amount)
             throws SQLException, RemoteException {
         tier3.setBalance(customerID, amount);
     }
 
-    @Override
+   // @Override
     public boolean withdrawMoney(int customerID, double amount)
-            throws Exception {
-        if (checkBalance(customerID) > amount) {
+            throws Exception  {
 
+        if (checkBalance(customerID) > amount) {
+            System.out.println("hello tier2 if ");
             return false;
         } else {
-
+            System.out.println("hello tier2 else ");
             tier3.setBalance(customerID, amount);
             double customerBalance = checkBalance(customerID);
+
             for (ClientInterface x : activeClients) {
                 x.response(customerBalance);
             }
@@ -53,10 +55,17 @@ public class Tier2 extends UnicastRemoteObject implements IClient, IClerk, IAdmi
         }
     }
 
-    @Override
+    //@Override
     public double checkBalance(int customerID) throws SQLException, RemoteException {
-
-        return tier3.getBalance(customerID);
+        System.out.println("Check balance method");
+        try {
+            return tier3.getBalance(customerID);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override
@@ -64,7 +73,7 @@ public class Tier2 extends UnicastRemoteObject implements IClient, IClerk, IAdmi
         return tier3.getCustomerID(name);
     }
 
-    @Override
+   @Override
     public void deleteAccount(int customerID) throws Exception {
         tier3.deleteAccount(customerID);
     }
@@ -74,11 +83,13 @@ public class Tier2 extends UnicastRemoteObject implements IClient, IClerk, IAdmi
         tier3.createAccount(name);
     }
 
-  @Override   public void addToActiveClientList(ClientInterface IClient) {
+  //@Override
+  public void addToActiveClientList(ClientInterface IClient) {
         activeClients.add(IClient);
 
     }
-    @Override   public void removeFromActiveClientList(ClientInterface IClient) {
+    //@Override
+    public void removeFromActiveClientList(ClientInterface IClient) {
         activeClients.remove(IClient);
 
     }

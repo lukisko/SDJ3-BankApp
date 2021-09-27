@@ -1,19 +1,23 @@
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 
-public class Client implements ClientInterface {
-    IClient tier2;
+public class Client extends UnicastRemoteObject implements ClientInterface  {
 
-    public Client() {
+    IClient tier2;
+    public Client() throws RemoteException{
         try {
             tier2 = (IClient) Naming.lookup("rmi://localhost/T2");
             tier2.addToActiveClientList(this);
+            System.out.println("Client connected...");
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
     }
 
@@ -31,6 +35,7 @@ public class Client implements ClientInterface {
 
         try {
             tier2.withdrawMoney(customerID, amount);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,7 +57,7 @@ public class Client implements ClientInterface {
         System.out.println("Balance was changed to: " + amount);
     }
 
-    public void disconnect() {
+    public void disconnect() throws RemoteException{
         tier2.removeFromActiveClientList(this);
 
     }
