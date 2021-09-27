@@ -11,8 +11,8 @@ public class RunMethodAdmin {
         IAdmin tier2 = (IAdmin) Naming.lookup("rmi://localhost:1099/T2");
 
 
-        tier2.deleteAccount(25);
-        tier2.createAccount("Peter");
+
+        tier2.createAccount("Jack");
         System.out.println("finished");
 
     }
