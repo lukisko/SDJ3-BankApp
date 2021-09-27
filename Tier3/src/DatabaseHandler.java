@@ -19,7 +19,7 @@ public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
             ex.printStackTrace();
         }
     }
-
+// The method is working
     @Override
     public double getBalance(int customerID) throws SQLException, RemoteException {
         float balance = 0;
@@ -33,7 +33,7 @@ public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
         }
         return balance;
     }
-
+// The method is working
     @Override
     public void setBalance(int customerID, double addAmount) throws
             SQLException {
@@ -44,7 +44,7 @@ public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
             statement.executeUpdate();
         }
     }
-
+    // This method is working
     @Override
     public void createAccount(String name) throws SQLException, RemoteException {
         try (Connection connection = DatabaseConnection.getConnection()) {
@@ -54,6 +54,7 @@ public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
             statement.executeUpdate();
         }
     }
+    //The method is working
     @Override
     public void deleteAccount(int customerID) throws SQLException, RemoteException {
         try (Connection connection = DatabaseConnection.getConnection()) {
@@ -62,15 +63,16 @@ public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
             statement.executeUpdate();
         }
     }
-
+        //The method is working
     @Override
     public int getCustomerID(String name) throws SQLException, RemoteException {
         int id = 0;
         try (Connection connection = DatabaseConnection.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("select ID=? from Account where name=?");
-            statement.setString(2, name);
-            id = statement.getResultSet().getInt(1);
-            statement.executeUpdate();
+            PreparedStatement statement = connection.prepareStatement("select customerID from Account where name=?");
+            statement.setString(1, name);
+            statement.executeQuery().next();
+            id=statement.getResultSet().getInt("customerID");
+
         }
         return id;
     }

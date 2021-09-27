@@ -3,7 +3,13 @@ public class T3runMethod {
     try {
       DatabaseHandler T3 = new DatabaseHandler();
 
-      System.out.println( "Tier3 ready" );
+
+
+      T3.createAccount("Alex");
+      System.out.println(T3.getCustomerID("Alex"));
+      T3.deleteAccount(21);
+      System.out.println(T3.getCustomerID("Alex"));
+
     } catch( Exception ex ) {
       ex.printStackTrace();
     }
