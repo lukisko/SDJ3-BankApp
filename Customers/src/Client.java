@@ -1,19 +1,19 @@
-import java.io.Serializable;
-import java.net.MalformedURLException;
+import interfaces.ClientInterface;
+import interfaces.IGeneralForClient;
+
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.SQLException;
 
 public class Client extends UnicastRemoteObject implements ClientInterface {
 
 
-IGeneral tier2;
+    private IGeneralForClient tier2;
+
     public Client() throws RemoteException {
         try {
-            tier2 = (IGeneral) Naming.lookup("rmi://localhost/T2");
-            //  tier2.addToActiveClientList(this);
+            tier2 = (IGeneralForClient) Naming.lookup("rmi://localhost/T2");
+            tier2.addToActiveClientList(this);
             System.out.println("Client connected...");
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,7 +59,6 @@ IGeneral tier2;
     }
 
     public void disconnect() throws RemoteException {
-        //   tier2.removeFromActiveClientList(this);
-
+           tier2.removeFromActiveClientList(this);
     }
 }

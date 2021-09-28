@@ -1,3 +1,7 @@
+import interfaces.ClientInterface;
+import interfaces.IGeneralForClient;
+import interfaces.ITier3;
+
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -6,7 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Tier2 extends UnicastRemoteObject implements IGeneral{
+public class Tier2 extends UnicastRemoteObject implements IGeneralForClient {
 
     private ITier3 tier3;
     private ArrayList<ClientInterface> activeClients;
@@ -16,7 +20,7 @@ public class Tier2 extends UnicastRemoteObject implements IGeneral{
         try {
             Registry registry = LocateRegistry.createRegistry(1099);
             Naming.bind("T2", this);
-            tier3 = (ITier3) Naming.lookup("rmi://192.168.43.113:1099/T3");
+            tier3 = (ITier3) Naming.lookup("rmi://192.168.43.111:1099/T3");
 
 
         } catch (Exception ex) {
@@ -83,12 +87,12 @@ public class Tier2 extends UnicastRemoteObject implements IGeneral{
         tier3.createAccount(name);
     }
 
-  //@Override
+  @Override
   public void addToActiveClientList(ClientInterface IClient) {
         activeClients.add(IClient);
 
     }
-    //@Override
+    @Override
     public void removeFromActiveClientList(ClientInterface IClient) {
         activeClients.remove(IClient);
 

@@ -1,3 +1,5 @@
+package interfaces;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -11,7 +13,7 @@ public interface IGeneral extends Remote {
     void insertMoney(int customerID, double amount)
             throws SQLException, RemoteException;
     double checkBalance(int customerID) throws SQLException, RemoteException;
-    // void addToActiveClientList(ClientInterface IClient) throws RemoteException;
-    //void removeFromActiveClientList(ClientInterface IClient) throws RemoteException;
+    // void addToActiveClientList(interfaces.ClientInterface IClient) throws RemoteException;
+    //void removeFromActiveClientList(interfaces.ClientInterface IClient) throws RemoteException;
 
 }
