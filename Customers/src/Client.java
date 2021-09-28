@@ -72,7 +72,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
   }
 
   @Override public void response(double amount, int customerID) {
-    System.out.println("Balance was changed by customer " + customerID + " to: " + amount);
+    System.out.println("Customer with id: " + customerID + " withdraw: " + amount);
   }
 
   public void disconnect() throws RemoteException {

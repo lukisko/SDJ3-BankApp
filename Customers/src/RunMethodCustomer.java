@@ -18,17 +18,16 @@ public class RunMethodCustomer {
 
         String clientName = input.nextLine();
         int customerID = client.getMyID(clientName);
-
-        while (true) {
+        boolean run = true;
+        while (run) {
             System.out.println("Please choose an action\n 0)Exit \n 1)Check balance \n 2)Withdraw money\n ");
             int action = input.nextInt();
 
-            if (action == 0) {
-                client.disconnect();
-                break;
-            }
-
             switch (action) {
+                case 0:
+                    client.disconnect();
+                    run = false;
+                    break;
                 case 1:
                     System.out.println("Your balance is: " + client.checkAmount(customerID));
                     System.out.println();
@@ -42,5 +41,5 @@ public class RunMethodCustomer {
 
         }
 
-    }
+   }
 }
