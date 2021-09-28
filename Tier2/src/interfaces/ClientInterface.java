@@ -1,11 +1,12 @@
 package interfaces;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface ClientInterface extends Remote {
-    double checkAmount(int customerID) throws Exception;
-    void takeMoney(int customerID,double amount) throws Exception;
-    void getMyID(String name) throws Exception;
-    void response(double amount) throws Exception;
+    double checkAmount(int customerID) throws RemoteException;
+    void takeMoney(int customerID,double amount) throws RemoteException;
+    void getMyID(String name) throws RemoteException;
+    void response(double amount) throws RemoteException;
 
 }
