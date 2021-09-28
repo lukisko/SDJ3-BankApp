@@ -6,13 +6,14 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 
-public class Client extends UnicastRemoteObject implements ClientInterface  {
+public class Client extends UnicastRemoteObject implements ClientInterface {
 
-    IClient tier2;
-    public Client() throws RemoteException{
+
+IGeneral tier2;
+    public Client() throws RemoteException {
         try {
-            tier2 = (IClient) Naming.lookup("rmi://localhost/T2");
-            tier2.addToActiveClientList(this);
+            tier2 = (IGeneral) Naming.lookup("rmi://localhost/T2");
+            //  tier2.addToActiveClientList(this);
             System.out.println("Client connected...");
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,14 +43,14 @@ public class Client extends UnicastRemoteObject implements ClientInterface  {
     }
 
     @Override
-    public void getMyID(String name) {
+    public int getMyID(String name) {
 
         try {
-            System.out.println(tier2.getCustomerID(name));
+            return tier2.getCustomerID(name);
 
         } catch (Exception e) {
         }
-
+        return 0;
     }
 
     @Override
@@ -57,8 +58,8 @@ public class Client extends UnicastRemoteObject implements ClientInterface  {
         System.out.println("Balance was changed to: " + amount);
     }
 
-    public void disconnect() throws RemoteException{
-        tier2.removeFromActiveClientList(this);
+    public void disconnect() throws RemoteException {
+        //   tier2.removeFromActiveClientList(this);
 
     }
 }

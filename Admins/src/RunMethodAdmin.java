@@ -1,19 +1,14 @@
-import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
-import java.sql.SQLException;
-import java.rmi.registry.LocateRegistry;
 
 public class RunMethodAdmin {
     public static void main(String[] args) throws Exception {
-        IAdmin tier2 = (IAdmin) Naming.lookup("rmi://localhost:1099/T2");
+        IGeneral tier2 = (IGeneral) Naming.lookup("rmi://localhost:1099/T2");
+
+        tier2.createAccount("George Washington");
 
 
 
-        tier2.createAccount("Jack");
-        System.out.println("finished");
+        System.out.println("Admin connected...");
 
     }
 }

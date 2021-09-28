@@ -14,7 +14,8 @@ public class RunMethodCustomer {
 
     Scanner input=new Scanner(System.in);
 
-      client.takeMoney(1,2);
+   int id= client.getMyID("George Washington");
+      client.takeMoney(id,300);
 
 
 

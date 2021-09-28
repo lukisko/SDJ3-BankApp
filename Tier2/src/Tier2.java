@@ -1,16 +1,12 @@
-import javax.management.remote.rmi.RMIConnector;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.RMIClassLoader;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
-public class Tier2 extends UnicastRemoteObject implements IAdmin{
+public class Tier2 extends UnicastRemoteObject implements IGeneral{
 
     private ITier3 tier3;
     private ArrayList<ClientInterface> activeClients;
@@ -20,7 +16,7 @@ public class Tier2 extends UnicastRemoteObject implements IAdmin{
         try {
             Registry registry = LocateRegistry.createRegistry(1099);
             Naming.bind("T2", this);
-            tier3 = (ITier3) Naming.lookup("rmi://192.168.43.191:1099/T3");
+            tier3 = (ITier3) Naming.lookup("rmi://192.168.43.113:1099/T3");
 
 
         } catch (Exception ex) {
@@ -30,22 +26,26 @@ public class Tier2 extends UnicastRemoteObject implements IAdmin{
 
     }
 
-  //  @Override
+   @Override
     public void insertMoney(int customerID, double amount)
             throws SQLException, RemoteException {
-        tier3.setBalance(customerID, amount);
+       double addedMoney= tier3.getBalance(customerID)+amount;
+        tier3.setBalance(customerID,addedMoney );
     }
 
-   // @Override
+   @Override
     public boolean withdrawMoney(int customerID, double amount)
             throws Exception  {
 
-        if (checkBalance(customerID) > amount) {
+        if (checkBalance(customerID) < amount) {
             System.out.println("hello tier2 if ");
             return false;
         } else {
             System.out.println("hello tier2 else ");
-            tier3.setBalance(customerID, amount);
+         double withdrawnMoney= tier3.getBalance(customerID)-amount;
+
+            tier3.setBalance(customerID, withdrawnMoney);
+
             double customerBalance = checkBalance(customerID);
 
             for (ClientInterface x : activeClients) {
@@ -55,7 +55,7 @@ public class Tier2 extends UnicastRemoteObject implements IAdmin{
         }
     }
 
-    //@Override
+    @Override
     public double checkBalance(int customerID) throws SQLException, RemoteException {
         System.out.println("Check balance method");
         try {
