@@ -51,7 +51,7 @@ public class Tier2 extends UnicastRemoteObject implements IGeneralForClient {
          tier3.setBalance(customerID, afterResult);
 
          for (ClientInterface x : activeClients) {
-           x.response(afterResult);
+           x.response(amount, customerID);
          }
          return true;
        }

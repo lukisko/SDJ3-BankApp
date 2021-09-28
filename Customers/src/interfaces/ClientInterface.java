@@ -7,6 +7,7 @@ public interface ClientInterface extends Remote {
     double checkAmount(int customerID) throws RemoteException;
     void takeMoney(int customerID,double amount) throws RemoteException;
     int getMyID(String name) throws RemoteException;
-    void response(double amount) throws RemoteException;
+    void response(double amount, int customerID) throws RemoteException;
+
 
 }
