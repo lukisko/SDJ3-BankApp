@@ -21,12 +21,15 @@ public class DatabaseHandler extends UnicastRemoteObject implements ITier3 {
 
     @Override
     public double getBalance(int customerID) throws SQLException, RemoteException {
+        System.out.println("begin");
         double balance = 0;
         try (Connection connection = DatabaseConnection.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("select balance from Account where customerID = ?");
+            System.out.println("try");
+            PreparedStatement statement = connection.prepareStatement("select balance from Account where customerID = ?;");
             balance = statement.getResultSet().getDouble(2);
             statement.executeUpdate();
         }
+        System.out.println("final");
         return balance;
     }
 

@@ -12,7 +12,9 @@ public class RunMethodAdmin {
 
 
 
-        tier2.createAccount("Jack");
+        tier2.createAccount("John");
+        int id = tier2.getCustomerID("John");
+        tier2.deleteAccount(id);
         System.out.println("finished");
 
     }

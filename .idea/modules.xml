@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/Customers/Customers.iml" filepath="$PROJECT_DIR$/Customers/Customers.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Project2.iml" filepath="$PROJECT_DIR$/.idea/Project2.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tier2/Tier2.iml" filepath="$PROJECT_DIR$/Tier2/Tier2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tier2Spring/Tier2Spring.iml" filepath="$PROJECT_DIR$/Tier2Spring/Tier2Spring.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tier3/Tier3.iml" filepath="$PROJECT_DIR$/Tier3/Tier3.iml" />
       <module fileurl="file://$PROJECT_DIR$/Admins/asd.iml" filepath="$PROJECT_DIR$/Admins/asd.iml" />
     </modules>
