@@ -37,7 +37,7 @@ public class Tier2 extends UnicastRemoteObject implements IAdmin
   //  @Override
   public void insertMoney(int customerID, double amount)
       throws SQLException, RemoteException
-  {
+  {//TODO this is not correct, we want to increase the value, not set it!!
     tier3.setBalance(customerID, amount);
   }
 
@@ -66,7 +66,7 @@ public class Tier2 extends UnicastRemoteObject implements IAdmin
   }
 
   //@Override
-  public double checkBalance(int customerID)
+  public double checkBalance(int customerID)//DONE is spring
       throws SQLException, RemoteException
   {
     System.out.println("Check balance method");
@@ -91,7 +91,7 @@ public class Tier2 extends UnicastRemoteObject implements IAdmin
     return tier3.getCustomerID(name);
   }
 
-  @Override
+  @Override//DONE in spring
   public void deleteAccount(int customerID) throws Exception
   {
     tier3.deleteAccount(customerID);
@@ -104,14 +104,14 @@ public class Tier2 extends UnicastRemoteObject implements IAdmin
   }
 
   //@Override
-  public void addToActiveClientList(ClientInterface IClient)
+  public void addToActiveClientList(ClientInterface IClient)//SPRING not applicable
   {
     activeClients.add(IClient);
 
   }
 
   //@Override
-  public void removeFromActiveClientList(ClientInterface IClient)
+  public void removeFromActiveClientList(ClientInterface IClient)//SPRING not applicable
   {
     activeClients.remove(IClient);
 

@@ -1,7 +1,8 @@
 package com.example.tier2spring;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -20,5 +21,55 @@ public class Tier2Controller
       e.printStackTrace();
       System.exit(1);
     }
+  }
+
+  @DeleteMapping("/customer/{custId}")
+  public synchronized ResponseEntity<String> deleteCustomer(@PathVariable String custId){
+    try {
+      int Id = Integer.parseInt(custId);
+      tier3.deleteAccount(Id);
+    } catch (NumberFormatException exception){
+      return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    } catch (Exception exception){
+      return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    return new ResponseEntity(HttpStatus.OK);
+  }
+
+  @GetMapping("/customer/{customerNo}/balance")
+  public synchronized ResponseEntity<String> getBalance(@PathVariable String customerNo){
+    int custNo = 0;
+    double value = 0;
+    try {
+      custNo = Integer.parseInt(customerNo);
+    } catch (NumberFormatException exception){
+      return new ResponseEntity<>("Invalid number.",HttpStatus.BAD_REQUEST);
+    }
+    try {
+      value = tier3.getBalance(custNo);
+      return new ResponseEntity<String>(String.valueOf(value),HttpStatus.OK);
+    } catch (Exception exception){
+      return new ResponseEntity<>(exception.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @GetMapping("/customer")
+  @ResponseBody
+  public synchronized ResponseEntity<String> getCustomerId(@RequestParam String name){
+    if (name == null || name.equals("")){
+      return new ResponseEntity<>("needs name parameter",HttpStatus.BAD_REQUEST);
+    } else {
+      try{
+        int Id = tier3.getCustomerID(name);
+        return new ResponseEntity<>(String.valueOf(Id),HttpStatus.OK);
+      } catch (Exception exception){
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+  }
+
+  @PostMapping("/customer")
+  public synchronized ResponseEntity<String> createAccount(@RequestBody String body){
+    return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
