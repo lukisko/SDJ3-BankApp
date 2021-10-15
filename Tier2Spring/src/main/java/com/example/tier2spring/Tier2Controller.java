@@ -69,7 +69,13 @@ public class Tier2Controller
   }
 
   @PostMapping("/customer")
-  public synchronized ResponseEntity<String> createAccount(@RequestBody String body){
-    return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+  public synchronized ResponseEntity<String> createAccount(@RequestBody String userName){
+    try {
+      tier3.createAccount(userName);
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch (Exception exception){
+      System.out.println(exception);
+      return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
